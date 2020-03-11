@@ -44,7 +44,7 @@ ab004      with partap00f as (select contcm, aaopcm, nparcm, sum(impocm)
 ab004      from vig90dat.cgmov00f where contcm like '1003%'
 ab004      group by contcm, aaopcm, nparcm
 ab004      having sum(impocm) <> 0 )
-ab004      select a.ancod, a.anzo, m.nparcm, m.dtrgcm, m.dt01cm,
+ab004      select a.ancod, a.anzo, m.nparcm, m.dtrgcm, m.dtdocm,
 ab004                     m.dt1scm, m.impocm
 ab004       from vig90dat.cgmov00f m join partap00f pa on pa.contcm = m.contcm
 ab004                                                 and pa.aaopcm = m.aaopcm
