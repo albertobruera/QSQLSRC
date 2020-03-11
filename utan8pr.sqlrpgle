@@ -50,7 +50,7 @@ ab004       from vig90dat.cgmov00f m join partap00f pa on pa.contcm = m.contcm
 ab004                                                 and pa.aaopcm = m.aaopcm
 ab004                                                 and pa.nparcm = m.nparcm
 ab004      join vig90dat.smtabca00l on causcm = k_cod
-ab004      join qs36f.anagra a on '10030' || a.ancod = m.contcm
+ab004      join qs36f.anagra a on '10030' || digits(a.ancod) = m.contcm
 ab004      where tecfit = 'S ' ;
        Exec sql
 ab002    Open INS;
