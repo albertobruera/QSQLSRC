@@ -285,8 +285,10 @@
                   Desc = Ds_Art.ARDES1 + Ds_Art.ARDESX + Ds_Art.ARDES2;
                 EndIf;
                 Exec Sql
-                 Update ARTFAQ01F set FQDESART = :Desc, FQDOM = :FQVINSDOM,
-                                       FQRIS = :FQVINSRIS
+                 Update ARTFAQ01F 
+                 	set FQDESART = :Desc, 
+                 		FQDOM 	 = :FQVINSDOM,
+                        FQRIS 	 = :FQVINSRIS
                     where FQCODART = :FQVINSART and  FQIDDOM = :FQVID;
               EndIf ;
             Else;
