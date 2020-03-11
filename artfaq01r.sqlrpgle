@@ -325,7 +325,10 @@
           dspf.ProtectArt   = *On;
           Dow (dspf.Annulla = *Off);
             Exec Sql
-              Select FQCODART, FQDOM, FQRIS, FQNDOC
+              Select FQCODART, 
+              		 FQDOM, 
+              		 FQRIS, 
+              		 FQNDOC
                 Into :FQVINSART, :FQVINSDOM, :FQVINSRIS, :FQVINSPDO
                 from ARTFAQ01F
                 Where FQIDDOM = :FQVID and FQCODART = :FQVCODART;
