@@ -158,14 +158,14 @@
           Dspf.SflDsp    = *On ;
           Dspf.SflClr    = *Off;
 
-         Cmd = 'Select +
-                       FQCODART, +
-                       FQDESART, +
-                       FQIDDOM, +
-                       FQDOM, +
-                       FQRIS, +
-                       FQNDOC  +
-                from artfaq01f where +
+         
+          Cmd = 'Select FQCODART, +
+                        FQDESART, +
+                        FQIDDOM, +
+                        FQDOM, +
+                        FQRIS, +
+                        FQNDOC  +
+                 from artfaq01f where +
                   (FQCODART like ' + Apice +
                   '%' + %Trim(FQVRICART) + '%' +
                   Apice + ' or ' + Apice + FQVRICART + Apice + ' = ' +
