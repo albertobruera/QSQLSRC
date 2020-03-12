@@ -22,6 +22,12 @@
       * Id modifica           : ab004
       * Desc. modifica        : Modificato SQL per reperimento insoluti
       **************************************************************************
+      * Modifica effettuata da: Alberto Bruera
+      * In data               : 12/03/2019
+      * Id modifica           : ab005
+      * Desc. modifica        : Modificato SQL per reperimento insoluti
+      **************************************************************************
+
      H DecEdit('0,') DatEdit(*Dmy/) AlWNULL(*INPUTONLY)
      h fixnbr(*zoned:*INPUTPACKED)  Option(*NoDebugIo)
      F$$MOVINS  O  a E             DISK
@@ -40,18 +46,57 @@
 
 ab004  Exec Sql
 ab004    Declare INS cursor for
-ab004      with partap00f as (select contcm, aaopcm, nparcm, sum(impocm)
-ab004      from vig90dat.cgmov00f where contcm like '1003%'
-ab004      group by contcm, aaopcm, nparcm
-ab004      having sum(impocm) <> 0 )
-ab004      select a.ancod, a.anzo, m.nparcm, m.dtrgcm, m.dtdocm,
-ab004                     m.dt1scm, m.impocm
-ab004       from vig90dat.cgmov00f m join partap00f pa on pa.contcm = m.contcm
-ab004                                                 and pa.aaopcm = m.aaopcm
-ab004                                                 and pa.nparcm = m.nparcm
-ab004      join vig90dat.smtabca00l on causcm = k_cod
-ab004      join qs36f.anagra a on '10030' || digits(a.ancod) = m.contcm
-ab004      where tecfit = 'S ' ;
+ab005    With partap00f as (select contcm, aaopcm, nparcm, sum(impocm)      
+ab005							from cgmov00f join 
+ab005							     smtabca00l on causcm = k_cod
+ab005							where contcm like '1003%' AND TECFIT = 'S'                    
+ab005							group by contcm, aaopcm, nparcm                            
+ab005							having sum(impocm) <> 0 )                                  
+ab005	  Select a.ancod, a.anzo, m.nparcm, 
+ab005	  		 (select m1.dtdocm from cgmov00f m1 where m1.nparcm = m.nparcm
+ab005                                                 and m1.aaopcm = m.aaopcm
+ab005                                                 and m1.contcm = m.contcm
+ab005                                                 and m1.causcm = '17'
+ab005                                                 order by m1.dtrgcm desc
+ab005                                                 fetch first row only),
+ab005                 (select m1.dtrgcm from cgmov00f m1 where m1.nparcm = m.nparcm
+ab005                                                 and m1.aaopcm = m.aaopcm
+ab005                                                 and m1.contcm = m.contcm
+ab005                                                 and m1.causcm = '17' 
+ab005                                                 order by m1.dtrgcm desc
+ab005                                                 fetch first row only),
+ab005                 (select m1.dt1scm from cgmov00f m1 where m1.nparcm = m.nparcm
+ab005                                                 and m1.aaopcm = m.aaopcm
+ab005                                                 and m1.contcm = m.contcm
+ab005                                                 and m1.causcm = '17' 
+ab005                                                 order by m1.dtrgcm desc
+ab005                                                 fetch first row only),
+ab005                SUM(m.impocm)
+ab005 				from vUE90dat.cgmov00f m join partap00f pa on pa.contcm = m.contcm
+ab005                					                 and pa.aaopcm = m.aaopcm
+ab005                                    			     and pa.nparcm = m.nparcm
+ab005				join qs36f.anagra a on '10030' || digits(a.ancod) = m.contcm                           
+ab005				GROUP BY ANCOD, ANZO, M.NPARCM, 
+ab005				(select m1.dtdocm from cgmov00f m1 where m1.nparcm = m.nparcm
+ab005                                                    and m1.aaopcm = m.aaopcm
+ab005                                                    and m1.contcm = m.contcm
+ab005                                                    and m1.causcm = '17' 
+ab005                                                    order by m1.dtrgcm desc
+ab005                                                    fetch first row only), 
+ab005                (select m1.dtrgcm from cgmov00f m1 where m1.nparcm = m.nparcm
+ab005                                                    and m1.aaopcm = m.aaopcm
+ab005                                                    and m1.contcm = m.contcm
+ab005													 and m1.causcm = '17'
+ab005                                                    order by m1.dtrgcm desc
+ab005        											 fetch first row only),
+ab005                (select m1.dt1scm from cgmov00f m1 where m1.nparcm = m.nparcm
+ab005                                                     and m1.aaopcm = m.aaopcm
+ab005                                                     and m1.contcm = m.contcm
+ab005                                                     and m1.causcm = '17' 
+ab005                                                     order by m1.dtrgcm desc
+ab005                                                     fetch first row only)
+ab005				HAVING SUM(IMPOCM) > 0
+ab005				order by a.ancod, m.nparcm; 
        Exec sql
 ab002    Open INS;
 
