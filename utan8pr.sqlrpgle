@@ -72,10 +72,10 @@ ab005                                                 and m1.causcm = '17'
 ab005                                                 order by m1.dtrgcm desc
 ab005                                                 fetch first row only),
 ab005                SUM(m.impocm)
-ab005 				from vUE90dat.cgmov00f m join partap00f pa on pa.contcm = m.contcm
+ab005 				from cgmov00f m join partap00f pa on pa.contcm = m.contcm
 ab005                					                 and pa.aaopcm = m.aaopcm
 ab005                                    			     and pa.nparcm = m.nparcm
-ab005				join qs36f.anagra a on '10030' || digits(a.ancod) = m.contcm                           
+ab005				join anagra a on '10030' || digits(a.ancod) = m.contcm                           
 ab005				GROUP BY ANCOD, ANZO, M.NPARCM, 
 ab005				(select m1.dtdocm from cgmov00f m1 where m1.nparcm = m.nparcm
 ab005                                                    and m1.aaopcm = m.aaopcm
