@@ -27,6 +27,11 @@
       * Id modifica           : ab005
       * Desc. modifica        : Modificato SQL per reperimento insoluti
       **************************************************************************
+	  * Modifica effettuata da: Alberto Bruera                                  
+	  * In data               : 13/03/2019                                      
+	  * Id modifica           : ab005                                           
+   	  * Desc. modifica        : Aggiunto array per gestione valori null         
+	  **************************************************************************
 
      H DecEdit('0,') DatEdit(*Dmy/) AlWNULL(*INPUTONLY)
      h fixnbr(*zoned:*INPUTPACKED)  Option(*NoDebugIo)
@@ -39,6 +44,8 @@
      d   DtDoc                        8s 0
      d   DtSca                        8s 0
      d   Imp                         13p 2
+     
+ab005d NullArray       s              5i 0 Dim(7)     
       *Clear flag insoluti
        Exec Sql
          Update anagra set anv4 = ' ';
@@ -101,7 +108,7 @@ ab005				order by a.ancod, m.nparcm;
 ab002    Open INS;
 
 ab002   Exec Sql
-ab002    Fetch INS Into :Ds_Insoluti;
+ab002    Fetch INS Into :Ds_Insoluti :NullArray;
 ab002   DoW SqlStt = '00000';
       ** //Scrive record per insoluti
 ab002      MZONA = Ds_Insoluti.Zona;
@@ -117,7 +124,7 @@ ab002      Exec Sql
 ab002        Update ANAGRA set ANV4 = 'I' where ANCOD = :Ds_Insoluti.CodCli;
 
 ab002    Exec Sql
-ab002    Fetch INS Into :Ds_Insoluti;
+ab002    Fetch INS Into :Ds_Insoluti :NullArray;;
          EndDo;
 
 ab002   Exec Sql
