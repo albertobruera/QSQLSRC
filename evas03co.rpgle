@@ -62,8 +62,6 @@
                 If (W_Ds_Evas.EvTimFin <> 0) ;
                   If (%Diff(%Time(Ds_Evas.EvTimInz * 100):
                             %Time(W_Ds_Evas.EvTimFin * 100):*minutes) > 40);
-                   // And
-                   //(W_Ds_Evas.evpgs <> 'S');
                     OraFin = %Time(W_Ds_Evas.EvTimFin * 100);
                     MinLav = MinLav + %Diff(OraFin:OraInz:*minutes);
                     w_orai = Ds_Evas.EvTimInz * 100;
