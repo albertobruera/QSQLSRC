@@ -24,7 +24,8 @@
               Exec Sql
                 Declare Evas cursor for
                   Select * from evas00f  
-                  order by evuser, evdata;
+                  order by evuser, 
+                  		   evdata;
               Exec Sql
                 Open Evas;
               Exec Sql
