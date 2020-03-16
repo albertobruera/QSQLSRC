@@ -23,7 +23,7 @@
 
               Exec Sql
                 Declare Evas cursor for
-                  Select * from evas00f //WHERE EVUSER = 'BOAN'
+                  Select * from evas00f  
                   order by evuser, evdata;
               Exec Sql
                 Open Evas;
